@@ -17,7 +17,7 @@ func Post[T any](url string, body any, header http.Header) (resBody T, err error
 
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(bodyBytes))
 	if err != nil {
-		return nil, err
+		return
 	}
 
 	// set header
