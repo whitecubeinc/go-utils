@@ -16,7 +16,8 @@ func ReadDotEnv(fileName string, dest any) error {
 
 	envMap := make(map[string]string)
 	for idx, line := range strings.Split(string(file), "\n") {
-		if len(line) == 0 {
+		line = strings.TrimSpace(line)
+		if len(line) == 0 || line[0] == '#' {
 			continue
 		}
 		splitLines := strings.SplitN(line, "=", 2)
