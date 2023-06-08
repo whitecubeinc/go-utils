@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func Post[T any](url string, body any, header http.Header) (resBody T, err error) {
+func Post[T any](url string, body any, header http.Header) (resBody T) {
 	if body == nil {
 		body = map[string]string{}
 	}
@@ -17,7 +17,7 @@ func Post[T any](url string, body any, header http.Header) (resBody T, err error
 
 	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(bodyBytes))
 	if err != nil {
-		return
+		panic(err)
 	}
 
 	// set header
@@ -26,18 +26,18 @@ func Post[T any](url string, body any, header http.Header) (resBody T, err error
 	// send request
 	res, err := client.Do(req)
 	if err != nil {
-		return
+		panic(err)
 	}
 
 	// read body
 	resBodyBytes, err := io.ReadAll(res.Body)
 	if err != nil {
-		return
+		panic(err)
 	}
 	defer func(Body io.ReadCloser) {
 		err := Body.Close()
 		if err != nil {
-			return
+			panic(err)
 		}
 	}(res.Body)
 

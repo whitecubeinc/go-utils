@@ -2,16 +2,15 @@ package utils
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"os"
 	"strings"
 )
 
-func ReadDotEnv(fileName string, dest any) error {
+func ReadDotEnv(fileName string, dest any) {
 	file, err := os.ReadFile(fileName)
 	if err != nil {
-		return err
+		panic(err)
 	}
 
 	envMap := make(map[string]string)
@@ -22,7 +21,7 @@ func ReadDotEnv(fileName string, dest any) error {
 		}
 		splitLines := strings.SplitN(line, "=", 2)
 		if len(splitLines) != 2 {
-			return errors.New(fmt.Sprintf("wrong .env file in %d line", idx))
+			panic(fmt.Sprintf("wrong .env file in %d line", idx))
 		}
 
 		key := strings.TrimSpace(splitLines[0])
@@ -33,8 +32,6 @@ func ReadDotEnv(fileName string, dest any) error {
 
 	err = json.Unmarshal(MarshalMust(envMap), dest)
 	if err != nil {
-		return err
+		panic(err)
 	}
-
-	return nil
 }

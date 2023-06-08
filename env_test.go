@@ -26,13 +26,12 @@ func TestReadDotEnv(t *testing.T) {
 	}
 
 	err := os.WriteFile(".env", []byte(envString), 0644)
-
 	assert.Nil(t, err)
 
 	env := Env{}
-	err = ReadDotEnv(".env", &env)
-
-	assert.Nil(t, err)
+	assert.NotPanics(t, func() {
+		ReadDotEnv(".env", &env)
+	})
 	assert.Equal(t, env.A, envMap["A"])
 	assert.Equal(t, env.B, envMap["B"])
 	assert.Equal(t, env.C, envMap["C"])
