@@ -2,6 +2,8 @@ package utils
 
 import "sync"
 
+// FIXME add test code
+
 type ConcurrentSlice[T any] struct {
 	sync.RWMutex
 	items []T
@@ -44,4 +46,38 @@ func (cs *ConcurrentSlice[T]) Length() int {
 
 func (cs *ConcurrentSlice[T]) GetItem() []T {
 	return cs.items
+}
+
+// MapValue 순서보장 O, 중복 제거 X
+func MapValue[T any, V any](slice []T, getValue func(element T) V) []V {
+	valueList := make([]V, 0, len(slice))
+
+	for _, element := range slice {
+		valueList = append(valueList, getValue(element))
+	}
+
+	return valueList
+}
+
+// MapValueUnique 중복 제거 O, 순서 보장 O
+func MapValueUnique[T any, V comparable](slice []T, getValue func(element T) V) []V {
+	valueList := make([]V, 0, len(slice))
+
+	for _, element := range slice {
+		newValue := getValue(element)
+		if !Contains(valueList, func(value V) bool { return value == newValue }) {
+			valueList = append(valueList, newValue)
+		}
+	}
+
+	return valueList
+}
+
+func Contains[T any](arr []T, Equal func(T) bool) bool {
+	for _, item := range arr {
+		if Equal(item) {
+			return true
+		}
+	}
+	return false
 }
