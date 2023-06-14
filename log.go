@@ -15,43 +15,43 @@ const (
 	DebugColor   = "\033[0;36m%s\033[0m"
 )
 
-var logger = log.New(os.Stderr, "[LOG] ", log.Ldate|log.Ltime)
+var Logger = log.New(os.Stderr, "[LOG] ", log.Ldate|log.Ltime)
 
 // Log default logger
 func Log(v ...any) {
-	logger.Println(v...)
+	Logger.Println(v...)
 }
 
 func Logf(format string, v ...any) {
-	logger.Printf(format, v...)
+	Logger.Printf(format, v...)
 }
 
 func Error(v ...any) {
 	str := fmt.Sprintf(ErrorColor, fmt.Sprintln(v...))
-	logger.Print(str)
+	Logger.Print(str)
 }
 
 func Errorf(format string, v ...any) {
 	str := fmt.Sprintf(ErrorColor, fmt.Sprintln(fmt.Sprintf(format, v...)))
-	logger.Printf(str)
+	Logger.Printf(str)
 }
 
 func Info(v ...any) {
 	str := fmt.Sprintf(InfoColor, fmt.Sprintln(v...))
-	logger.Print(str)
+	Logger.Print(str)
 }
 
 func Warning(v ...any) {
 	str := fmt.Sprintf(WarningColor, fmt.Sprintln(v...))
-	logger.Print(str)
+	Logger.Print(str)
 }
 
 func Debug(v ...any) {
-	logger.Print(fmt.Sprintf(DebugColor, fmt.Sprintln(v...)))
+	Logger.Print(fmt.Sprintf(DebugColor, fmt.Sprintln(v...)))
 }
 
 func Fatal(v ...any) {
-	logger.Fatal(fmt.Sprintf(WarningColor, fmt.Sprintln(v...)))
+	Logger.Fatal(fmt.Sprintf(WarningColor, fmt.Sprintln(v...)))
 }
 
 func PrintStruct(v any) {
