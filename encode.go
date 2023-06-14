@@ -5,16 +5,16 @@ import (
 	"strings"
 )
 
-func EncodePhone(phone *string) {
-	*phone = strings.ReplaceAll(*phone, "-", "")
-	*phone = base64.StdEncoding.EncodeToString([]byte(*phone))
+func EncodePhone(phone string) string {
+	phone = strings.ReplaceAll(phone, "-", "")
+	return base64.StdEncoding.EncodeToString([]byte(phone))
 }
 
-func DecodePhone(phone *string) {
-	phoneByte, err := base64.StdEncoding.DecodeString(*phone)
+func DecodePhone(phone string) string {
+	phoneByte, err := base64.StdEncoding.DecodeString(phone)
 	if err != nil {
 		panic(err)
 	}
 
-	*phone = string(phoneByte)
+	return string(phoneByte)
 }

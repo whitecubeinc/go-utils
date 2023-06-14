@@ -48,6 +48,15 @@ func (cs *ConcurrentSlice[T]) GetItem() []T {
 	return cs.items
 }
 
+func Contains[T any](arr []T, equal func(value T) bool) bool {
+	for _, item := range arr {
+		if equal(item) {
+			return true
+		}
+	}
+	return false
+}
+
 // MapValue 순서보장 O, 중복 제거 X
 func MapValue[T any, V any](slice []T, getValue func(element T) V) []V {
 	valueList := make([]V, 0, len(slice))
@@ -62,22 +71,15 @@ func MapValue[T any, V any](slice []T, getValue func(element T) V) []V {
 // MapValueUnique 중복 제거 O, 순서 보장 O
 func MapValueUnique[T any, V comparable](slice []T, getValue func(element T) V) []V {
 	valueList := make([]V, 0, len(slice))
+	checker := make(map[V]bool)
 
 	for _, element := range slice {
-		newValue := getValue(element)
-		if !Contains(valueList, func(value V) bool { return value == newValue }) {
-			valueList = append(valueList, newValue)
+		value := getValue(element)
+		if !checker[value] {
+			valueList = append(valueList, value)
+			checker[value] = true
 		}
 	}
 
 	return valueList
-}
-
-func Contains[T any](arr []T, Equal func(T) bool) bool {
-	for _, item := range arr {
-		if Equal(item) {
-			return true
-		}
-	}
-	return false
 }

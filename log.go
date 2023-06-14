@@ -49,6 +49,10 @@ func Debug(v ...any) {
 	logger.Print(fmt.Sprintf(DebugColor, fmt.Sprintln(v...)))
 }
 
+func Fatal(v ...any) {
+	logger.Fatal(fmt.Sprintf(WarningColor, fmt.Sprintln(v...)))
+}
+
 func PrintStruct(v any) {
 	b, err := json.MarshalIndent(v, "", "\t")
 	if err != nil {

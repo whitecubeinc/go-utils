@@ -7,17 +7,13 @@ import (
 
 func TestEncodePhone(t *testing.T) {
 	phone := "01012345678"
-	phone2 := phone
-	EncodePhone(&phone2)
 
-	assert.NotEqual(t, phone, phone2)
+	assert.NotEqual(t, phone, EncodePhone(phone))
 }
 
 func TestDecodePhone(t *testing.T) {
 	phone := "01012345678"
-	phone2 := phone
-	EncodePhone(&phone2)
-	DecodePhone(&phone2)
+	encodePhone := EncodePhone(phone)
 
-	assert.Equal(t, phone, phone2)
+	assert.Equal(t, phone, DecodePhone(encodePhone))
 }
