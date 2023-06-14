@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"runtime/debug"
 )
 
 const (
@@ -60,4 +61,8 @@ func PrintStruct(v any) {
 	}
 
 	Log(string(b))
+}
+
+func PrintStackTrace() {
+	Log(string(debug.Stack()))
 }
