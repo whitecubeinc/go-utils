@@ -1,6 +1,9 @@
 package utils
 
-import "sync"
+import (
+	"math"
+	"sync"
+)
 
 // FIXME add test code
 
@@ -82,4 +85,45 @@ func MapValueUnique[T any, V comparable](slice []T, getValue func(element T) V) 
 	}
 
 	return valueList
+}
+
+func DivideSlicePerSize[T any](orgSlice []T, size int) [][]T {
+	if size <= 0 {
+		panic("")
+	}
+	newSlice := make([][]T, 0)
+	dividedSlice := make([]T, 0, size)
+	for _, e := range orgSlice {
+		dividedSlice = append(dividedSlice, e)
+		if len(dividedSlice) == size {
+			newSlice = append(newSlice, dividedSlice)
+			dividedSlice = make([]T, 0)
+		}
+	}
+	if len(dividedSlice) != 0 {
+		newSlice = append(newSlice, dividedSlice)
+	}
+	return newSlice
+}
+
+// DivideMapPerSize value 끼리 순서 보장 X
+func DivideMapPerSize[V comparable, T any](orgMap map[V]T, size int) []map[V]T {
+	if size <= 0 {
+		panic("")
+	}
+	dividedMap := make([]map[V]T, 0, int(math.Ceil(float64(len(orgMap))/float64(size))))
+
+	newMap := make(map[V]T, 0)
+	for key, value := range orgMap {
+		newMap[key] = value
+		if len(newMap) == size {
+			dividedMap = append(dividedMap, newMap)
+			newMap = make(map[V]T, 0)
+		}
+	}
+	if len(newMap) > 0 {
+		dividedMap = append(dividedMap, newMap)
+	}
+
+	return dividedMap
 }

@@ -90,3 +90,85 @@ func TestMapValueUnique(t *testing.T) {
 		return element.B % 2
 	}))
 }
+
+func TestDivideSlicePerSize(t *testing.T) {
+	arr := []int{1, 2, 3, 4, 5, 6, 7}
+
+	dividedArr := [][]int{
+		{1, 2, 3},
+		{4, 5, 6},
+		{7},
+	}
+
+	assert.Equal(t, DivideSlicePerSize(arr, 3), dividedArr)
+
+	dividedArr = [][]int{
+		{1},
+		{2},
+		{3},
+		{4},
+		{5},
+		{6},
+		{7},
+	}
+
+	assert.Equal(t, DivideSlicePerSize(arr, 1), dividedArr)
+
+	dividedArr = [][]int{
+		{1, 2},
+		{3, 4},
+		{5, 6},
+		{7},
+	}
+
+	assert.Equal(t, DivideSlicePerSize(arr, 2), dividedArr)
+}
+
+func TestDivideMapPerSize(t *testing.T) {
+	mapData := map[int]string{
+		1: "1",
+		2: "2",
+		3: "3",
+		4: "4",
+		5: "5",
+	}
+
+	divideMap := DivideMapPerSize(mapData, 1)
+	for key, value := range mapData {
+		var exist bool
+		for _, divide := range divideMap {
+			if v, ok := divide[key]; ok {
+				assert.Equal(t, v, value)
+				exist = true
+				break
+			}
+		}
+		assert.Equal(t, exist, true)
+	}
+
+	divideMap = DivideMapPerSize(mapData, 2)
+	for key, value := range mapData {
+		var exist bool
+		for _, divide := range divideMap {
+			if v, ok := divide[key]; ok {
+				assert.Equal(t, v, value)
+				exist = true
+				break
+			}
+		}
+		assert.Equal(t, exist, true)
+	}
+
+	divideMap = DivideMapPerSize(mapData, 3)
+	for key, value := range mapData {
+		var exist bool
+		for _, divide := range divideMap {
+			if v, ok := divide[key]; ok {
+				assert.Equal(t, v, value)
+				exist = true
+				break
+			}
+		}
+		assert.Equal(t, exist, true)
+	}
+}
