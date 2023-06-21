@@ -45,3 +45,23 @@ func Post[T any](url string, body any, header http.Header) (resBody T) {
 
 	return
 }
+
+func PostWithoutResponse(url string, body any, header http.Header) {
+	client := new(http.Client)
+
+	bodyBytes := MarshalMust(body)
+
+	req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(bodyBytes))
+	if err != nil {
+		panic(err)
+	}
+
+	// set header
+	req.Header = header
+
+	// send request
+	_, err = client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+}
