@@ -1,0 +1,60 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+
+env:
+  GO_VERSION: '1.20'
+
+permissions:
+  contents: read
+
+jobs:
+  # check dirty change for go mod tidy
+  go-mod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: subdir/go.sum
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Check go mod
+        run: |
+          go mod tidy
+          git diff --exit-code go.mod
+  golangci-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Verify dependencies
+        run: go mod verify
+      - name: Lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+          args: --timeout 5m --verbose
+  tests:
+    needs: golangci-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - name: Display Go version
+        run: go version
+      - name: Start tests
+        run: go test
+        env:
+          APP_ENV: test

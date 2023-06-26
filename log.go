@@ -47,11 +47,13 @@ func Warning(v ...any) {
 }
 
 func Debug(v ...any) {
-	Logger.Print(fmt.Sprintf(DebugColor, fmt.Sprintln(v...)))
+	str := fmt.Sprintf(DebugColor, fmt.Sprintln(v...))
+	Logger.Print(str)
 }
 
 func Fatal(v ...any) {
-	Logger.Fatal(fmt.Sprintf(WarningColor, fmt.Sprintln(v...)))
+	str := fmt.Sprintf(WarningColor, fmt.Sprintln(v...))
+	Logger.Fatal(str)
 }
 
 func PrintStruct(v any) {
