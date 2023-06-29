@@ -9,8 +9,8 @@ func Struct2M(v any) map[string]any {
 
 // Struct2MWithCase string case function 으로 key 값을 변경하여 반환
 func Struct2MWithCase(v any, keyCaseFunction func(string) string) map[string]any {
-	mapData := Struct2M(v)
-	for key, value := range mapData {
+	mapData := make(map[string]any)
+	for key, value := range Struct2M(v) {
 		mapData[keyCaseFunction(key)] = value
 		delete(mapData, key)
 	}
