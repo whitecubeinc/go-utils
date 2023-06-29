@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-func AnyToString(v any) (string, error) {
+func Any2String(v any) (string, error) {
 	switch s := v.(type) {
 	case string:
 		return s, nil
