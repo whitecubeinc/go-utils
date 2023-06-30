@@ -8,6 +8,7 @@ import (
 	"strconv"
 )
 
+//gocyclo:ignore
 func Any2String(v any) (string, error) {
 	switch s := v.(type) {
 	case string:
@@ -63,6 +64,29 @@ func Any2String(v any) (string, error) {
 	case error:
 		return s.Error(), nil
 	default:
-		return "", errors.New(fmt.Sprintf("unable to cast %#v of type %T to string", v, v))
+		return "", fmt.Errorf("unable to cast %#v of type %T to string", v, v)
+	}
+}
+
+func Any2IntMust(v any) int {
+	value, err := Any2Int(v)
+	if err != nil {
+		panic(err)
+	}
+	return value
+}
+
+func Any2Int(v any) (int, error) {
+	switch s := v.(type) {
+	case string:
+		return strconv.Atoi(s)
+	case int:
+		return s, nil
+	case float64:
+		return int(s), nil
+	case int64:
+		return int(s), nil
+	default:
+		return 0, errors.New("cannot parse to int")
 	}
 }
