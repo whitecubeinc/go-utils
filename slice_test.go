@@ -1,9 +1,10 @@
 package utils
 
 import (
-	"github.com/stretchr/testify/assert"
 	"strconv"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestContains(t *testing.T) {
@@ -62,6 +63,40 @@ func TestMapValue(t *testing.T) {
 
 	assert.Equal(t, intArr, MapValue(dataArr, func(element Data) int {
 		return element.B
+	}))
+}
+
+func TestMapValueFilter(t *testing.T) {
+	type Data struct {
+		A string
+		B int
+	}
+
+	dataArr := make([]Data, 0)
+	intArr := make([]int, 0)
+	for i := 0; i < 10; i++ {
+		dataArr = append(dataArr, Data{
+			A: strconv.Itoa(i),
+			B: i,
+		})
+		if i%2 == 0 {
+			intArr = append(intArr, i)
+		}
+	}
+
+	assert.Equal(t, intArr, MapValueFilter(dataArr, func(element Data) *int {
+		v, _ := strconv.Atoi(element.A)
+		if v%2 == 0 {
+			return &v
+		}
+		return nil
+	}))
+
+	assert.Equal(t, intArr, MapValueFilter(dataArr, func(element Data) *int {
+		if element.B%2 == 0 {
+			return &element.B
+		}
+		return nil
 	}))
 }
 

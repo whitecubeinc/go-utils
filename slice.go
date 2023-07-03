@@ -71,6 +71,18 @@ func MapValue[T any, V any](slice []T, getValue func(element T) V) []V {
 	return valueList
 }
 
+func MapValueFilter[T any, V any](slice []T, getValue func(element T) *V) []V {
+	valueList := make([]V, 0, len(slice))
+
+	for _, element := range slice {
+		if value := getValue(element); value != nil {
+			valueList = append(valueList, *value)
+		}
+	}
+
+	return valueList
+}
+
 // MapValueUnique 중복 제거 O, 순서 보장 O
 func MapValueUnique[T any, V comparable](slice []T, getValue func(element T) V) []V {
 	valueList := make([]V, 0, len(slice))
