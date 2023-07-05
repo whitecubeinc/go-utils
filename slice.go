@@ -71,6 +71,8 @@ func MapValue[T any, V any](slice []T, getValue func(element T) V) []V {
 	return valueList
 }
 
+// MapValueFilter 순서보장
+// getValue 에서 조건에 만족하지 않으면 nil 리턴
 func MapValueFilter[T any, V any](slice []T, getValue func(element T) *V) []V {
 	valueList := make([]V, 0, len(slice))
 
