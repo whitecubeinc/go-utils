@@ -1,9 +1,10 @@
 package utils
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestDayOfStart(t *testing.T) {
@@ -62,4 +63,12 @@ func TestGetTodayOfEnd(t *testing.T) {
 	assert.Equal(t, todayOfEnd.Hour(), 23)
 	assert.Equal(t, todayOfEnd.Minute(), 59)
 	assert.Equal(t, todayOfEnd.Second(), 59)
+}
+
+func TestKRLocation(t *testing.T) {
+	krNow := time.Now().In(KRLocation)
+	utcNow := time.Now().In(time.UTC)
+
+	assert.Equal(t, krNow.Unix(), utcNow.Unix())
+	assert.NotEqual(t, krNow.String(), utcNow.String())
 }
