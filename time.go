@@ -2,6 +2,16 @@ package utils
 
 import "time"
 
+var (
+	KRLocation = func() *time.Location {
+		location, err := time.LoadLocation("Asia/Seoul")
+		if err != nil {
+			panic(err)
+		}
+		return location
+	}()
+)
+
 func SetDayOfStart(t *time.Time) {
 	*t = time.Date(
 		t.Year(),
