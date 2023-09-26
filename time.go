@@ -49,3 +49,22 @@ func GetTodayOfEnd(location *time.Location) time.Time {
 	SetDayOfEnd(&now)
 	return now
 }
+
+func SetStartOfThisMonth(t *time.Time) {
+	*t = time.Date(
+		t.Year(),
+		t.Month(),
+		1,
+		0,
+		0,
+		0,
+		0,
+		t.Location(),
+	)
+}
+
+func GetStartOfThisMonth(location *time.Location) time.Time {
+	now := time.Now().In(location)
+	SetStartOfThisMonth(&now)
+	return now
+}
