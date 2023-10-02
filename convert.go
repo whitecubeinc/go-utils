@@ -104,6 +104,8 @@ func Any2Float(v any) (float64, error) {
 		return float64(v.(uint64)), nil
 	case reflect.Float32, reflect.Float64:
 		return v.(float64), nil
+	case reflect.String:
+		return strconv.ParseFloat(v.(string), 64)
 	}
 
 	// 변환이 불가능한 경우 에러 반환
