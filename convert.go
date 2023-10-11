@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	"reflect"
 	"strconv"
 )
 
@@ -89,4 +90,33 @@ func Any2Int(v any) (int, error) {
 	default:
 		return 0, errors.New("cannot parse to int")
 	}
+}
+
+func Any2Float(v any) (float64, error) {
+	// 입력값의 타입을 확인
+	valueType := reflect.TypeOf(v)
+
+	// 입력값이 숫자 형식인지 확인
+	switch valueType.Kind() {
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return float64(v.(int64)), nil
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		return float64(v.(uint64)), nil
+	case reflect.Float32, reflect.Float64:
+		return v.(float64), nil
+	case reflect.String:
+		return strconv.ParseFloat(v.(string), 64)
+	}
+
+	// 변환이 불가능한 경우 에러 반환
+	return 0, fmt.Errorf("지원되지 않는 데이터 타입: %s", valueType.String())
+}
+
+func Any2FloatMust(v any) float64 {
+	float, err := Any2Float(v)
+	if err != nil {
+		panic(err)
+	}
+
+	return float
 }
