@@ -207,3 +207,13 @@ func TestDivideMapPerSize(t *testing.T) {
 		assert.Equal(t, exist, true)
 	}
 }
+
+func TestSlice2String(t *testing.T) {
+	intArray := []int{1, 2, 3}
+	intArrayString := Slice2String(intArray)
+	assert.Equal(t, "1, 2, 3", intArrayString)
+
+	stringArray := []string{"a", "b", "c"}
+	stringArrayString := Slice2String(stringArray)
+	assert.Equal(t, "'a', 'b', 'c'", stringArrayString)
+}

@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"fmt"
 	"math"
+	"reflect"
 	"sync"
 )
 
@@ -140,4 +142,22 @@ func DivideMapPerSize[V comparable, T any](orgMap map[V]T, size int) []map[V]T {
 	}
 
 	return dividedMap
+}
+
+func Slice2String[T any](arr []T) (str string) {
+	// 빈 array 가 왔을 때 빈 string 으로 return
+	if len(arr) == 0 {
+		return
+	}
+
+	for _, v := range arr {
+		reflectType := reflect.TypeOf(v)
+		if reflectType.Kind() == reflect.String {
+			str += fmt.Sprintf("'%v', ", v)
+		} else {
+			str += fmt.Sprintf("%v, ", v)
+		}
+	}
+
+	return str[:len(str)-2]
 }
