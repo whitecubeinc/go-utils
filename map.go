@@ -17,3 +17,12 @@ func Struct2MWithCase(v any, keyCaseFunction func(string) string) map[string]any
 
 	return mapData
 }
+
+func Slice2Map[T any, V comparable](slice []T, getKey func(v T) V) map[V]T {
+	newMap := make(map[V]T)
+	for _, v := range slice {
+		newMap[getKey(v)] = v
+	}
+
+	return newMap
+}
