@@ -14,6 +14,6 @@ func FormatKoreanCurrency(n int) string {
 }
 
 func CalDailyInterest(orgAmount int, interestRate float64, interestStartDate time.Time, standardDate time.Time) (interest int) {
-	dayDiff := standardDate.Sub(interestStartDate).Hours() / 24
-	return int(CeilAt(float64(orgAmount)*interestRate*dayDiff, 2))
+	dayDiff := int(standardDate.Sub(interestStartDate).Hours() / 24)
+	return int(CeilAt(float64(orgAmount)*interestRate*float64(dayDiff), 2))
 }
