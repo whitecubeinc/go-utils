@@ -81,3 +81,25 @@ func IsSameDate(t1, t2 time.Time, location *time.Location) bool {
 
 	return false
 }
+
+func GetKRWeekDay(weekday time.Weekday) (krWeekday string) {
+	switch weekday {
+	case time.Monday:
+		krWeekday = "월"
+	case time.Tuesday:
+		krWeekday = "화"
+	case time.Wednesday:
+		krWeekday = "수"
+	case time.Thursday:
+		krWeekday = "목"
+	case time.Friday:
+		krWeekday = "금"
+	case time.Saturday:
+		krWeekday = "토"
+	case time.Sunday:
+		krWeekday = "일"
+	default:
+		panic("")
+	}
+	return
+}
