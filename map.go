@@ -26,3 +26,19 @@ func Slice2Map[T any, V comparable](slice []T, getKey func(v T) V) map[V]T {
 
 	return newMap
 }
+
+func MapFilterByValue[K comparable, T any](targetMap map[K]T, check func(value T) bool) {
+	for key, value := range targetMap {
+		if !check(value) {
+			delete(targetMap, key)
+		}
+	}
+}
+
+func MapFilterByKey[K comparable, T any](targetMap map[K]T, check func(key K) bool) {
+	for key := range targetMap {
+		if !check(key) {
+			delete(targetMap, key)
+		}
+	}
+}
