@@ -42,3 +42,21 @@ func MapFilterByKey[K comparable, T any](targetMap map[K]T, check func(key K) bo
 		}
 	}
 }
+
+// GetMapKeys Key 순서 보장 X
+func GetMapKeys[M ~map[K]V, K comparable, V any](m M) []K {
+	keys := make([]K, 0, len(m))
+	for key := range m {
+		keys = append(keys, key)
+	}
+	return keys
+}
+
+// GetMapValues Value 순서 보장 X
+func GetMapValues[M ~map[K]V, K comparable, V any](m M) []V {
+	values := make([]V, 0)
+	for _, value := range m {
+		values = append(values, value)
+	}
+	return values
+}
