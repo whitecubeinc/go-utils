@@ -161,3 +161,24 @@ func Slice2String[T any](arr []T) (str string) {
 
 	return str[:len(str)-2]
 }
+
+func SliceFilter[T any](arr []T, test func(idx int) bool) []T {
+	var filtered []T
+	for i := range arr {
+		if test(i) {
+			filtered = append(filtered, arr[i])
+		}
+	}
+
+	return filtered
+}
+
+func Find[T any](arr []T, test func(idx int) bool) *T {
+	for i := 0; i < len(arr); i++ {
+		if test(i) {
+			return &arr[i]
+		}
+	}
+
+	return nil
+}
