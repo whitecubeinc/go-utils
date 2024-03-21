@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
+	"fmt"
 	"reflect"
 	"sort"
 )
@@ -56,7 +57,7 @@ func SortSlice(target []any) []any {
 			ha = hash(tmpV)
 		} else {
 			tmpV = i
-			ha = tmpV.(string)
+			ha = fmt.Sprintf("%v", tmpV)
 		}
 
 		hashArr[ha] = tmpV
