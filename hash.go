@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
+	"reflect"
 	"sort"
 )
 
@@ -13,10 +14,11 @@ func HashStruct(target any) (string, error) {
 		return "", err
 	}
 
-	var targetMap map[string]any
+	targetMap := make(map[string]any)
 	if err = json.Unmarshal(targetBytes, &targetMap); err != nil {
 		return "", err
 	}
+	targetMap["target-struct-name"] = reflect.TypeOf(target).Name()
 
 	s := SortMap(targetMap)
 	s = SortSimpleMap(s)
