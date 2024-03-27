@@ -22,6 +22,9 @@ func Post[T any](url string, body any, header http.Header) (resBody T) {
 
 	// set header
 	req.Header = header
+	if req.Header.Get("Content-Type") != "application/json" {
+		req.Header.Add("Content-Type", "application/json")
+	}
 
 	// send request
 	res, err := client.Do(req)
@@ -99,6 +102,9 @@ func PostWithoutResponse(url string, body any, header http.Header) {
 
 	// set header
 	req.Header = header
+	if req.Header.Get("Content-Type") != "application/json" {
+		req.Header.Add("Content-Type", "application/json")
+	}
 
 	// send request
 	_, err = client.Do(req)
@@ -123,6 +129,9 @@ func Put[T any](url string, body any, header http.Header) (resBody T) {
 
 	// set header
 	req.Header = header
+	if req.Header.Get("Content-Type") != "application/json" {
+		req.Header.Add("Content-Type", "application/json")
+	}
 
 	// send request
 	res, err := client.Do(req)
