@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"io"
 	"net/http"
+	"net/url"
 )
 
 func Post[T any](url string, body any, header http.Header) (resBody T) {
@@ -49,18 +50,14 @@ func Post[T any](url string, body any, header http.Header) (resBody T) {
 	return
 }
 
-func Get[T any](url string, param map[string]string, header http.Header) (resBody T) {
+func Get[T any](url string, param url.Values, header http.Header) (resBody T) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		panic(err)
 	}
 
-	if param != nil {
-		query := req.URL.Query()
-		for k, v := range param {
-			query.Add(k, v)
-		}
-		req.URL.RawQuery = query.Encode()
+	if len(param) != 0 {
+		req.URL.RawQuery = param.Encode()
 	}
 
 	// set header
