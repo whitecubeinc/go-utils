@@ -152,3 +152,46 @@ func Put[T any](url string, body any, header http.Header) (resBody T) {
 
 	return
 }
+
+func Patch[T any](url string, body any, header http.Header) (resBody T) {
+	if body == nil {
+		body = map[string]string{}
+	}
+
+	client := new(http.Client)
+
+	bodyBytes := MarshalMust(body)
+
+	req, err := http.NewRequest(http.MethodPatch, url, bytes.NewBuffer(bodyBytes))
+	if err != nil {
+		panic(err)
+	}
+
+	// set header
+	req.Header = header
+	if req.Header.Get("Content-Type") != "application/json" {
+		req.Header.Add("Content-Type", "application/json")
+	}
+
+	// send request
+	res, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+
+	// read body
+	resBodyBytes, err := io.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(res.Body)
+
+	resBody = ReturnUnmarshal[T](resBodyBytes)
+
+	return
+}
